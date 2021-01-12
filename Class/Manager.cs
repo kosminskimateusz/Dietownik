@@ -1,0 +1,7 @@
+namespace Dietownik
+{
+    class Manager
+    {
+        
+    }
+}
