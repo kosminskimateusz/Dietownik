@@ -7,7 +7,6 @@ namespace Dietownik
         static void Main(string[] args)
         {
             
-            
         }
     }
 }

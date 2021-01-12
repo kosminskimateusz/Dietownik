@@ -4,10 +4,17 @@ namespace Dietownik
 {
     class Recipe
     {
-        public List<Product> GetListIngredients()
+        public string Name { get; set; }
+        List<Ingredient> Ingredients = new List<Ingredient>();
+        public List<Ingredient> GetListIngredients()
         {
-            List<Product> listIngredients = new List<Product>();
-            return listIngredients;
+            return Ingredients;
+        }
+
+        public void AddIngredient(Product product, decimal weigth)
+        {
+            Ingredient newIngredient = new Ingredient(product.Name, weigth);
+            Ingredients.Add(newIngredient);
         }
     }
 }
