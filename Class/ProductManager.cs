@@ -20,16 +20,16 @@ namespace Dietownik
         }
         public void Start()     // Working good
         {
-            string name = "";
+            string productName = "";
             decimal kcal;
             Console.WriteLine("Type name of product:\t");
             // name = Console.ReadLine();
             // kcal = Int32.Parse(Console.ReadLine());
-            name = "Marchewka";
+            productName = "Marchewka";
             kcal = 18;
 
 
-            AddProduct(name, kcal);
+            AddProduct(productName, kcal);
             AddProductToDataBase();
         }
         private void AddProduct(string name, decimal kcal)  // Working good
