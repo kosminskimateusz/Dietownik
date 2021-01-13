@@ -20,57 +20,54 @@ namespace Dietownik
         }
         public void Start()     // Working good
         {
-            string productName = "";
-            decimal kcal;
-            Console.WriteLine("Type name of product:\t");
-            // name = Console.ReadLine();
-            // kcal = Int32.Parse(Console.ReadLine());
-            productName = "Marchewka";
-            kcal = 18;
-
-            AddProduct(productName, kcal);
+            // Pętla ze switchem:
+            // Opcja 1 Dodaj nowy produkt do bazy danych
             AddProductToDataBase();
-        }
-        private void AddProduct(string name, decimal kcal)  // Working good
-        {
-            // Create product object
-            NewProduct = new Product(name, kcal);
-            // Call method product.AddProductToDataBase(product);
+            // Opcja 2 Edytuj produkt w bazie danych
+            // Usuń produkt z bazy danych
         }
         private void AddProductToDataBase()     // Working good
         {
             bool fileAdded = false;
-            string fileName = "";
+            string productName = "";
             string path = "";
-            // string jsonString;
+            decimal kcal;
 
             do
             {
-                fileName = NewProduct.Name;
+                Console.WriteLine("Type name of product:\t");
+                productName = Console.ReadLine();
+                string fileName = productName;
+
+
+                fileName = productName;
                 path = Folder + fileName + Extention;
                 // Create productName.json file, Add all informations (Name, Kcal, Fat etc...) in json format. 
                 if (!File.Exists(path))
                 {
+                    Console.WriteLine("Type kcal in 100g: ");
+                    kcal = Decimal.Parse(Console.ReadLine());
+                    AddProduct(productName, kcal);
+
                     var options = new JsonSerializerOptions
                     {
                         WriteIndented = true,
                     };
                     byte[] jsonUtf8Bytes;
                     jsonUtf8Bytes = JsonSerializer.SerializeToUtf8Bytes(NewProduct, options);
-                    // jsonString = JsonSerializer.Serialize(NewProduct);
                     File.WriteAllBytes(path, jsonUtf8Bytes);
-                    // File.WriteAllText(path, jsonString);
                     Console.WriteLine("Dodano nowy produkt do bazy danych.");
                     fileAdded = true;
                 }
                 else
                 {
                     Console.WriteLine("Produkt o podanej nazwie juz istnieje.");
-                    Console.WriteLine("Podaj inna nazwe");
-                    NewProduct.Name = Console.ReadLine();
-                    NewProduct.Kcal = Int32.Parse(Console.ReadLine());
                 }
             } while (fileAdded == false);
+        }
+        private void AddProduct(string name, decimal kcal)  // Working good
+        {
+            NewProduct = new Product(name, kcal);
         }
 
         public List<Product> AllProducts()  // Working good
@@ -100,6 +97,7 @@ namespace Dietownik
         {
             return AllProducts().OrderBy(product => product.Kcal).ToList();
         }
+
         public void PrintProductList(List<Product> products)
         {
             var productName = products.Select(product => product.Name).ToList();

@@ -8,7 +8,8 @@ namespace Dietownik
         List<Ingredient> Ingredients = new List<Ingredient>();
         public Recipe(string recipeName, List<Ingredient> ingredients)
         {
-            
+            this.Name = recipeName;
+            this.Ingredients = ingredients;
         }
         public List<Ingredient> GetListIngredients()
         {
