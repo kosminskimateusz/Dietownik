@@ -3,9 +3,11 @@ namespace Dietownik
     class Product
     {
         public string Name { get; set; }
-        public Product(string name)
+        public decimal Kcal { get; set; }
+        public Product(string name, decimal kcal)
         {
-            Name = name;
+            this.Name = name;
+            this.Kcal = kcal;
         }
     }
 }

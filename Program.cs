@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace Dietownik
 {
@@ -8,16 +9,12 @@ namespace Dietownik
         static void Main(string[] args)
         {
             ProductManager productManager = new ProductManager();
-            productManager.Start();
-            var listProducts = productManager.AllProducts();
-
-            // var products = listProducts.Select(product => product.Name).ToList();
-            // var products = listProducts.Where(product => product != null).Select(product => product).ToList();
-
-            // foreach (var product in products)
-            // {
-            //     System.Console.WriteLine(product.Name);
-            // }
+            // productManager.Start();
+            var products = productManager.SortProductsByKcal();
+            productManager.PrintProductList(products);
+            System.Console.WriteLine('\n');
+            products = productManager.AllProducts();
+            productManager.PrintProductList(products);
         }
     }
 }

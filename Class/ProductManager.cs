@@ -3,6 +3,7 @@ using System.IO;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Collections.Generic;
+using System.Linq;
 
 
 namespace Dietownik
@@ -11,24 +12,33 @@ namespace Dietownik
     {
         private string Folder = "./Products/";
         private string Extention = ".json";
-        Product NewProduct { get; set; }
-        List<Product> AllProductsList = new List<Product>();
-        public void Start()
+        private Product NewProduct { get; set; }
+        private List<Product> AllProductsList { get; set; }
+        public ProductManager()
+        {
+            AllProductsList = new List<Product>();
+        }
+        public void Start()     // Working good
         {
             string name = "";
+            decimal kcal;
             Console.WriteLine("Type name of product:\t");
             // name = Console.ReadLine();
+            // kcal = Int32.Parse(Console.ReadLine());
             name = "Marchewka";
-            AddProduct(name);
+            kcal = 18;
+
+
+            AddProduct(name, kcal);
             AddProductToDataBase();
         }
-        private void AddProduct(string name)
+        private void AddProduct(string name, decimal kcal)  // Working good
         {
             // Create product object
-            NewProduct = new Product(name);
+            NewProduct = new Product(name, kcal);
             // Call method product.AddProductToDataBase(product);
         }
-        private void AddProductToDataBase()
+        private void AddProductToDataBase()     // Working good
         {
             bool fileAdded = false;
             string fileName = "";
@@ -59,12 +69,14 @@ namespace Dietownik
                     Console.WriteLine("Produkt o podanej nazwie juz istnieje.");
                     Console.WriteLine("Podaj inna nazwe");
                     NewProduct.Name = Console.ReadLine();
+                    NewProduct.Kcal = Int32.Parse(Console.ReadLine());
                 }
             } while (fileAdded == false);
         }
 
-        public List<Product> AllProducts()
+        public List<Product> AllProducts()  // Working good
         {
+            AllProductsList.Clear();
             // var json = File.ReadAllText(Folder + "*.json");
             // var productX = JsonSerializer.Deserialize<Product>(json);
             foreach (string file in Directory.GetFiles(Folder, "*.json"))
@@ -75,7 +87,7 @@ namespace Dietownik
                 {
                     var jsonBytes = File.ReadAllBytes(file);
                     var personX = JsonSerializer.Deserialize<Product>(jsonBytes);
-                    System.Console.WriteLine(personX.Name);
+
                     if (personX != null)
                     {
                         AllProductsList.Add(personX);
@@ -84,5 +96,26 @@ namespace Dietownik
             }
             return AllProductsList;
         }
+
+        public List<Product> SortProductsByKcal()     //Working good
+        {
+            return AllProducts().OrderBy(product => product.Kcal).ToList();
+        }
+        public void PrintProductList(List<Product> products)
+        {
+            var productName = products.Select(product => product.Name).ToList();
+            var productKcal = products.Select(product => product.Kcal).ToList();
+
+            for (int i = 0; i < products.Count; i++)
+            {
+                Console.Write($"Name: {productName[i]}\t\t");
+                if (productName[i].Length <= 10)
+                {
+                    Console.Write("\t");
+                }
+                Console.WriteLine($"Kcal: {productKcal[i]}");
+            }
+        }
+        // Dorobić metody: Edytuj produkt, Usuń produkt.
     }
 }

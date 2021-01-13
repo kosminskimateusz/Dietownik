@@ -13,7 +13,7 @@ namespace Dietownik
 
         public void AddIngredient(Product product, decimal weigth)
         {
-            Ingredient newIngredient = new Ingredient(product.Name, weigth);
+            Ingredient newIngredient = new Ingredient(product.Name,product.Kcal, weigth);
             Ingredients.Add(newIngredient);
         }
     }
