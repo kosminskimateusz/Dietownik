@@ -28,7 +28,6 @@ namespace Dietownik
             productName = "Marchewka";
             kcal = 18;
 
-
             AddProduct(productName, kcal);
             AddProductToDataBase();
         }

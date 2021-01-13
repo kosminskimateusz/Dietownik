@@ -6,6 +6,10 @@ namespace Dietownik
     {
         public string Name { get; set; }
         List<Ingredient> Ingredients = new List<Ingredient>();
+        public Recipe(string recipeName, List<Ingredient> ingredients)
+        {
+            
+        }
         public List<Ingredient> GetListIngredients()
         {
             return Ingredients;
