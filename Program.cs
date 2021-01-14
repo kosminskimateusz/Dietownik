@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Dietownik
 {
@@ -10,7 +10,7 @@ namespace Dietownik
         {
             // ProductManager productManager = new ProductManager();
             // productManager.Start();
-            
+            RecipeManager recipeManager1 = new RecipeManager(); 
             // var products = productManager.SortProductsByKcal();
             // productManager.PrintProductList(products);
             
