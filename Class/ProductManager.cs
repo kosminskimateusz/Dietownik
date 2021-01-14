@@ -105,10 +105,20 @@ namespace Dietownik
 
             for (int i = 0; i < products.Count; i++)
             {
-                Console.Write($"Name: {productName[i]}\t\t");
+                Console.Write($"Name: {productName[i]}\t");
+                string tab = "---- ";
+
                 if (productName[i].Length <= 10)
                 {
-                    Console.Write("\t");
+                    Console.Write($"\t\t{tab}");
+                }
+                else if ((productName[i].Length > 10) && (productName[i].Length <= 20))
+                {
+                    Console.Write($"\t{tab}");
+                }
+                if (productName[i].Length > 20)
+                {
+                    Console.Write(tab);
                 }
                 Console.WriteLine($"Kcal: {productKcal[i]}");
             }
