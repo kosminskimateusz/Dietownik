@@ -14,6 +14,10 @@ namespace Dietownik
         private Recipe NewRecipe { get; set; }
         private List<Recipe> AllRecipesList { get; set; }
         private List<Ingredient> NewIngredients { get; set; }
+        public RecipeManager()
+        {
+            AllRecipesList = new List<Recipe>();
+        }
         public void Start()     // Working good
         {
 
@@ -106,13 +110,38 @@ namespace Dietownik
                 var options = new JsonSerializerOptions
                 {
                     WriteIndented = true,
+                    IncludeFields = true
                 };
                 byte[] jsonUtf8Bytes;
-                jsonUtf8Bytes = JsonSerializer.SerializeToUtf8Bytes(recipe, options);
+                jsonUtf8Bytes = JsonSerializer.SerializeToUtf8Bytes<Recipe>(recipe, options);
                 File.WriteAllBytes(path, jsonUtf8Bytes);
                 Console.WriteLine("Dodano nowy przepis do bazy danych.");
-                Console.WriteLine($"Nazwa: {recipe.Name}");
+                // Console.WriteLine($"Nazwa: {recipe.Name}");
+
+                using (StreamReader sr = new StreamReader(path))
+                {
+                    var jsonBytes = File.ReadAllBytes(path);
+                    var recipeX = JsonSerializer.Deserialize<Recipe>(jsonBytes);
+                    Console.WriteLine(recipeX.Name);
+                    Console.WriteLine(recipeX.Name);
+                    Console.WriteLine(recipeX.Name);
+                    Console.WriteLine(recipeX.Name);
+                }
+
+                // foreach (string file in Directory.GetFiles(Folder, "*.json"))
+                // {
+                //     using (StreamReader sr = new StreamReader(file))
+                //     {
+                //         var jsonBytes = File.ReadAllBytes(file);
+                //         var recipeX = JsonSerializer.Deserialize<Recipe>(jsonBytes);
+                //         if (recipeX != null)
+                //         {
+                //             AllRecipesList.Add(recipeX);
+                //         }
+                //     }
+                // }
                 List<Ingredient> skladniki = new List<Ingredient>();
+                AllRecipesList.Add(recipe);
             }
             else
             {
@@ -136,6 +165,50 @@ namespace Dietownik
             productManager.PrintProductList(products);
             Console.WriteLine('\n');
             return products;
+        }
+        // public List<Recipe> PrintAndReturnListOfRecipes()
+        // {
+        //     AllRecipesList.Clear();
+
+        //     foreach (string file in Directory.GetFiles(Folder, "*.json"))
+        //     {
+
+        //         // Product product;
+        //         using (StreamReader sr = new StreamReader(file))
+        //         {
+        //             var jsonBytes = File.ReadAllBytes(file);
+        //             // Problem z deserializacją Jsona 
+        //             var recipeX = JsonSerializer.Deserialize<Recipe>(jsonBytes);
+        //             if (recipeX != null)
+        //             {
+        //                 AllRecipesList.Add(recipeX);
+        //             }
+        //         }
+        //     }
+        //     return AllRecipesList;
+        // }
+        private List<Recipe> GetListFromDataBase()
+        {
+            AllRecipesList.Clear();
+
+            foreach (string file in Directory.GetFiles(Folder, "*.json"))
+            {
+                using (StreamReader sr = new StreamReader(file))
+                {
+                    var jsonBytes = File.ReadAllBytes(file);
+                    var recipeX = JsonSerializer.Deserialize<Recipe>(jsonBytes);
+                    if (recipeX != null)
+                    {
+                        AllRecipesList.Add(recipeX);
+                    }
+                }
+            }
+            return AllRecipesList;
+        }
+        public List<Recipe> PrintAndReturnListOfRecipes()
+        {
+
+            return GetListFromDataBase();
         }
     }
 }

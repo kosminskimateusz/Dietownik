@@ -83,7 +83,7 @@ namespace Dietownik
                 {
                     var jsonBytes = File.ReadAllBytes(file);
                     var personX = JsonSerializer.Deserialize<Product>(jsonBytes);
-
+                    
                     if (personX != null)
                     {
                         AllProductsList.Add(personX);
