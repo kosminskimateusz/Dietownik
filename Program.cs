@@ -10,7 +10,10 @@ namespace Dietownik
         {
             // ProductManager productManager = new ProductManager();
             // productManager.Start();
+            // productManager.PrintProductList(productManager.AllProducts());
 
+            RecipeManager recipeManager = new RecipeManager();
+            recipeManager.Start();
             // var products = productManager.SortProductsByKcal();
             // productManager.PrintProductList(products);
             
@@ -19,9 +22,9 @@ namespace Dietownik
             // products = productManager.AllProducts();
             // productManager.PrintProductList(products);
 
-            RecipeManager recipeManager = new RecipeManager();
-            recipeManager.Start();
-            List<Recipe> recipes = new List<Recipe>();
+            // RecipeManager recipeManager = new RecipeManager();
+            // recipeManager.Start();
+            // List<Recipe> recipes = new List<Recipe>();
             // recipes = recipeManager.PrintAndReturnListOfRecipes();
             // Console.WriteLine(recipes.Count);
             // foreach (var recipe in recipes)

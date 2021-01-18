@@ -38,7 +38,7 @@ namespace Dietownik
 
             AddIngredients(recipeName);
             NewRecipe = new Recipe(recipeName, NewIngredients);
-            AddRecipeToDataBase(NewRecipe);
+            AddRecipeToDataBase();
         }
         private void AddIngredients(string recipeName)
         {
@@ -99,33 +99,30 @@ namespace Dietownik
                 }
             }
         }
-        private void AddRecipeToDataBase(Recipe recipe)
+        private void AddRecipeToDataBase()
         {
             string path;
-            string fileName = recipe.Name;
+            string fileName = NewRecipe.Name;
             path = Folder + fileName + Extention;
             // Create productName.json file, Add all informations (Name, Kcal, Fat etc...) in json format. 
             if (!File.Exists(path))
             {
-                var options = new JsonSerializerOptions
-                {
-                    WriteIndented = true,
-                    IncludeFields = true
-                };
-                byte[] jsonUtf8Bytes;
-                jsonUtf8Bytes = JsonSerializer.SerializeToUtf8Bytes<Recipe>(recipe, options);
-                File.WriteAllBytes(path, jsonUtf8Bytes);
+                // var options = new JsonSerializerOptions
+                // {
+                //     WriteIndented = true,
+                //     IncludeFields = true
+                // };
+                // byte[] jsonUtf8Bytes;
+                // jsonUtf8Bytes = JsonSerializer.SerializeToUtf8Bytes<Recipe>(NewRecipe, options);
+                // File.WriteAllBytes(path, jsonUtf8Bytes);
+                JsonManager json = new JsonManager();
+                json.SaveToJson(NewRecipe, path);
                 Console.WriteLine("Dodano nowy przepis do bazy danych.");
                 // Console.WriteLine($"Nazwa: {recipe.Name}");
 
                 using (StreamReader sr = new StreamReader(path))
                 {
-                    var jsonBytes = File.ReadAllBytes(path);
-                    var recipeX = JsonSerializer.Deserialize<Recipe>(jsonBytes);
-                    Console.WriteLine(recipeX.Name);
-                    Console.WriteLine(recipeX.Name);
-                    Console.WriteLine(recipeX.Name);
-                    Console.WriteLine(recipeX.Name);
+                    var recipeX = json.LoadRecipeFromJson(path);
                 }
 
                 // foreach (string file in Directory.GetFiles(Folder, "*.json"))
@@ -140,8 +137,8 @@ namespace Dietownik
                 //         }
                 //     }
                 // }
-                List<Ingredient> skladniki = new List<Ingredient>();
-                AllRecipesList.Add(recipe);
+
+                AllRecipesList.Add(NewRecipe);
             }
             else
             {
@@ -207,7 +204,6 @@ namespace Dietownik
         }
         public List<Recipe> PrintAndReturnListOfRecipes()
         {
-
             return GetListFromDataBase();
         }
     }

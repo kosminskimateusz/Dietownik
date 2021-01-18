@@ -49,13 +49,8 @@ namespace Dietownik
                     kcal = Decimal.Parse(Console.ReadLine());
                     AddProduct(productName, kcal);
 
-                    var options = new JsonSerializerOptions
-                    {
-                        WriteIndented = true,
-                    };
-                    byte[] jsonUtf8Bytes;
-                    jsonUtf8Bytes = JsonSerializer.SerializeToUtf8Bytes(NewProduct, options);
-                    File.WriteAllBytes(path, jsonUtf8Bytes);
+                    JsonManager json = new JsonManager();
+                    json.SaveToJson(NewProduct, path);
                     Console.WriteLine("Dodano nowy produkt do bazy danych.");
                     fileAdded = true;
                 }
@@ -73,6 +68,7 @@ namespace Dietownik
         public List<Product> AllProducts()  // Working good
         {
             AllProductsList.Clear();
+            JsonManager json = new JsonManager();
             // var json = File.ReadAllText(Folder + "*.json");
             // var productX = JsonSerializer.Deserialize<Product>(json);
             foreach (string file in Directory.GetFiles(Folder, "*.json"))
@@ -81,12 +77,11 @@ namespace Dietownik
                 // Product product;
                 using (StreamReader sr = new StreamReader(file))
                 {
-                    var jsonBytes = File.ReadAllBytes(file);
-                    var personX = JsonSerializer.Deserialize<Product>(jsonBytes);
-                    
-                    if (personX != null)
+                    var product = json.LoadProductFromJson(file);
+
+                    if (product != null)
                     {
-                        AllProductsList.Add(personX);
+                        AllProductsList.Add(product);
                     }
                 }
             }
