@@ -8,12 +8,13 @@ namespace Dietownik
     {
         static void Main(string[] args)
         {
-            // ProductManager productManager = new ProductManager();
-            // productManager.Start();
+            ProductManager productManager = new ProductManager();
+            productManager.Start();
             // productManager.PrintProductList(productManager.AllProducts());
 
             RecipeManager recipeManager = new RecipeManager();
             recipeManager.Start();
+            // recipeManager.PrintAndReturnListOfRecipes();
             // var products = productManager.SortProductsByKcal();
             // productManager.PrintProductList(products);
             

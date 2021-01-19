@@ -16,11 +16,5 @@ namespace Dietownik
         {
             return Ingredients;
         }
-
-        public void AddIngredient(Product product, decimal weigth)
-        {
-            Ingredient newIngredient = new Ingredient(product.Name, product.Kcal, weigth);
-            Ingredients.Add(newIngredient);
-        }
     }
 }

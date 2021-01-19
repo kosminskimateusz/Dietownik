@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Text.Json;
-using System.Text.Json.Serialization;
 
 namespace Dietownik
 {
@@ -116,13 +114,13 @@ namespace Dietownik
                 // jsonUtf8Bytes = JsonSerializer.SerializeToUtf8Bytes<Recipe>(NewRecipe, options);
                 // File.WriteAllBytes(path, jsonUtf8Bytes);
                 JsonManager json = new JsonManager();
-                json.SaveToJson(NewRecipe, path);
-                Console.WriteLine("Dodano nowy przepis do bazy danych.");
+                json.SaveObject(NewRecipe, path);
+                Console.WriteLine("Dodano nowy przepis do bazy danych.\n");
                 // Console.WriteLine($"Nazwa: {recipe.Name}");
 
                 using (StreamReader sr = new StreamReader(path))
                 {
-                    var recipeX = json.LoadRecipeFromJson(path);
+                    var recipeX = json.LoadObject(path);
                 }
 
                 // foreach (string file in Directory.GetFiles(Folder, "*.json"))
@@ -192,8 +190,8 @@ namespace Dietownik
             {
                 using (StreamReader sr = new StreamReader(file))
                 {
-                    var jsonBytes = File.ReadAllBytes(file);
-                    var recipeX = JsonSerializer.Deserialize<Recipe>(jsonBytes);
+                    JsonManager json = new JsonManager();
+                    Recipe recipeX = (Recipe)json.LoadObject(file);
                     if (recipeX != null)
                     {
                         AllRecipesList.Add(recipeX);
@@ -204,7 +202,41 @@ namespace Dietownik
         }
         public List<Recipe> PrintAndReturnListOfRecipes()
         {
-            return GetListFromDataBase();
+            GetListFromDataBase();
+            foreach (var recipe in AllRecipesList)
+            {
+                Console.WriteLine($"Przepis na:\n\t{recipe.Name}");
+                Console.WriteLine($"Lista składników:");
+                foreach (var ingredient in recipe.Ingredients)
+                {
+                    int tab = 0;
+                    if (ingredient.Name.Length < 9)
+                    {
+                        tab = 4;
+                    }
+                    if ((ingredient.Name.Length >= 9) && (ingredient.Name.Length < 15))
+                    {
+                        tab = 3;
+                    }
+                    if ((ingredient.Name.Length >= 15) && (ingredient.Name.Length < 25))
+                    {
+                        tab = 2;
+                    }
+                    if ((ingredient.Name.Length >= 25) && (ingredient.Name.Length < 34))
+                    {
+                        tab = 1;
+                    }
+
+                    Console.Write($"\t{ingredient.Name}");
+                    for (int i = 0; i < tab; i++)
+                    {
+                        Console.Write("\t");
+                    }
+                    Console.WriteLine($"{ingredient.Weight}");
+                }
+                Console.WriteLine('\n');
+            }
+            return AllRecipesList;
         }
     }
 }

@@ -1,7 +1,5 @@
 using System;
 using System.IO;
-using System.Text.Json;
-using System.Text.Json.Serialization;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -26,31 +24,28 @@ namespace Dietownik
             // Opcja 2 Edytuj produkt w bazie danych
             // Usuń produkt z bazy danych
         }
-        private void AddProductToDataBase()     // Working good
+        private void AddProductToDataBase()
         {
             bool fileAdded = false;
             string productName = "";
             string path = "";
             decimal kcal;
+            JsonManager json = new JsonManager();
 
             do
             {
                 Console.WriteLine("Type name of product:\t");
                 productName = Console.ReadLine();
+
                 string fileName = productName;
-
-
-                fileName = productName;
                 path = Folder + fileName + Extention;
                 // Create productName.json file, Add all informations (Name, Kcal, Fat etc...) in json format. 
                 if (!File.Exists(path))
                 {
                     Console.WriteLine("Type kcal in 100g: ");
                     kcal = Decimal.Parse(Console.ReadLine());
-                    AddProduct(productName, kcal);
-
-                    JsonManager json = new JsonManager();
-                    json.SaveToJson(NewProduct, path);
+                    NewProduct = AddProduct(productName, kcal);
+                    json.SaveObject(NewProduct, path);
                     Console.WriteLine("Dodano nowy produkt do bazy danych.");
                     fileAdded = true;
                 }
@@ -60,24 +55,21 @@ namespace Dietownik
                 }
             } while (fileAdded == false);
         }
-        private void AddProduct(string name, decimal kcal)  // Working good
+        private Product AddProduct(string name, decimal kcal)  // Working good
         {
-            NewProduct = new Product(name, kcal);
+            return new Product(name, kcal);
         }
 
         public List<Product> AllProducts()  // Working good
         {
             AllProductsList.Clear();
             JsonManager json = new JsonManager();
-            // var json = File.ReadAllText(Folder + "*.json");
-            // var productX = JsonSerializer.Deserialize<Product>(json);
+
             foreach (string file in Directory.GetFiles(Folder, "*.json"))
             {
-
-                // Product product;
                 using (StreamReader sr = new StreamReader(file))
                 {
-                    var product = json.LoadProductFromJson(file);
+                    Product product = (Product)json.LoadObject(file);
 
                     if (product != null)
                     {
