@@ -7,15 +7,42 @@ namespace Dietownik
 {
     class JsonManager
     {
+        private string Path { get; set; }
         public void SaveObject(object dataObject, string path)
         {
+            this.Path = path;
             Console.WriteLine(dataObject.GetType());
             string jsonString;
             jsonString = JsonConvert.SerializeObject(dataObject, Formatting.Indented);
 
             if (!File.Exists(path))
             {
-                File.WriteAllText(path, jsonString);
+                bool exists = false;
+                string[] pathSplitted = path.Split('/');
+                foreach (var line in pathSplitted)
+                {
+                    if (Directory.Exists("./Products/"))
+                    {
+                        exists = true;
+                    }
+                    else if ((Directory.Exists("./Recipes/") && Directory.Exists("./Recipes/Caloryfic/")))
+                    {
+                        exists = true;
+                    }
+
+                }
+                if (exists == false)
+                {
+                    string folderPath = "";
+                    folderPath += ".";
+                    for (int i = 0; i < (pathSplitted.Length - 1); i++)
+                    {
+                        folderPath += "/";
+                        folderPath += pathSplitted[i];
+                    }
+                    Directory.CreateDirectory(folderPath);
+                }
+                File.WriteAllText(Path, jsonString);
                 // Console.WriteLine("Zapisano bajty");
             }
             else
