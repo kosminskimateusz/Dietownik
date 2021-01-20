@@ -6,6 +6,7 @@ namespace Dietownik
     {
         public string Name { get; set; }
         public List<Ingredient> Ingredients { get; set; }
+        public decimal Kcal =82;
         public Recipe(string recipeName, List<Ingredient> ingredients)
         {
             this.Name = recipeName;

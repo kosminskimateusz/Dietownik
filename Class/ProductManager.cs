@@ -8,8 +8,8 @@ namespace Dietownik
 {
     class ProductManager
     {
-        private string Folder = "./Products/";
-        private string Extention = ".json";
+        private const string Folder = "./Products/";
+        private const string Extention = ".json";
         private Product NewProduct { get; set; }
         private List<Product> AllProductsList { get; set; }
         public ProductManager()

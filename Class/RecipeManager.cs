@@ -6,8 +6,9 @@ namespace Dietownik
 {
     class RecipeManager
     {
-        private string Folder = "./Recipes/";
-        private string Extention = ".json";
+        private const string FolderStd = "./Recipes/";
+        private string Folder { get; set; }
+        private const string Extention = ".json";
         private string NewRecipeName { get; set; }
         private Recipe NewRecipe { get; set; }
         private List<Recipe> AllRecipesList { get; set; }
@@ -31,7 +32,7 @@ namespace Dietownik
         {
             string recipeName = "";
 
-            Console.WriteLine("Type name of recipe:\t");
+            Console.WriteLine("Podaj nazwę produktu:\t");
             recipeName = Console.ReadLine();
 
             AddIngredients(recipeName);
@@ -50,6 +51,24 @@ namespace Dietownik
                 PrintListOfAddedIngredients();
                 AddIngredient(recipeName, products, ref end);
             } while (end == false);
+        }
+        private List<Product> PrintAndReturnListOfProducts(List<Product> products)
+        {
+            ProductManager productManager = new ProductManager();
+            Console.WriteLine("List of all products:\n");
+            products = productManager.AllProducts();
+            productManager.PrintProductList(products);
+            Console.WriteLine('\n');
+            return products;
+        }
+        private void PrintListOfAddedIngredients()
+        {
+            Console.WriteLine("Added ingredients: ");
+            foreach (var newIngredient in NewIngredients)
+            {
+                Console.WriteLine($"{newIngredient.Name}\t{newIngredient.Weight} g");
+            }
+            Console.WriteLine('\n');
         }
         private void AddIngredient(string recipeName, List<Product> products, ref bool end)
         {
@@ -101,40 +120,20 @@ namespace Dietownik
         {
             string path;
             string fileName = NewRecipe.Name;
+            ChooseFolderByKcal();
             path = Folder + fileName + Extention;
             // Create productName.json file, Add all informations (Name, Kcal, Fat etc...) in json format. 
             if (!File.Exists(path))
             {
-                // var options = new JsonSerializerOptions
-                // {
-                //     WriteIndented = true,
-                //     IncludeFields = true
-                // };
-                // byte[] jsonUtf8Bytes;
-                // jsonUtf8Bytes = JsonSerializer.SerializeToUtf8Bytes<Recipe>(NewRecipe, options);
-                // File.WriteAllBytes(path, jsonUtf8Bytes);
                 JsonManager json = new JsonManager();
                 json.SaveObject(NewRecipe, path);
                 Console.WriteLine("Dodano nowy przepis do bazy danych.\n");
-                // Console.WriteLine($"Nazwa: {recipe.Name}");
+                Console.WriteLine($"Nazwa: {NewRecipe.Name}");
 
                 using (StreamReader sr = new StreamReader(path))
                 {
                     var recipeX = json.LoadObject(path);
                 }
-
-                // foreach (string file in Directory.GetFiles(Folder, "*.json"))
-                // {
-                //     using (StreamReader sr = new StreamReader(file))
-                //     {
-                //         var jsonBytes = File.ReadAllBytes(file);
-                //         var recipeX = JsonSerializer.Deserialize<Recipe>(jsonBytes);
-                //         if (recipeX != null)
-                //         {
-                //             AllRecipesList.Add(recipeX);
-                //         }
-                //     }
-                // }
 
                 AllRecipesList.Add(NewRecipe);
             }
@@ -142,67 +141,26 @@ namespace Dietownik
             {
                 Console.WriteLine("Przepis o podanej nazwie juz istnieje.");
             }
+            Folder = FolderStd;
         }
-        private void PrintListOfAddedIngredients()
+        private void ChooseFolderByKcal()
         {
-            Console.WriteLine("Added ingredients: ");
-            foreach (var newIngredient in NewIngredients)
+            if (NewRecipe.Kcal < 80)
             {
-                Console.WriteLine($"{newIngredient.Name}\t{newIngredient.Weight} g");
+                Folder = FolderStd + "LowCaloryfic/";
             }
-            Console.WriteLine('\n');
-        }
-        private List<Product> PrintAndReturnListOfProducts(List<Product> products)
-        {
-            ProductManager productManager = new ProductManager();
-            Console.WriteLine("List of all products:\n");
-            products = productManager.AllProducts();
-            productManager.PrintProductList(products);
-            Console.WriteLine('\n');
-            return products;
-        }
-        // public List<Recipe> PrintAndReturnListOfRecipes()
-        // {
-        //     AllRecipesList.Clear();
-
-        //     foreach (string file in Directory.GetFiles(Folder, "*.json"))
-        //     {
-
-        //         // Product product;
-        //         using (StreamReader sr = new StreamReader(file))
-        //         {
-        //             var jsonBytes = File.ReadAllBytes(file);
-        //             // Problem z deserializacją Jsona 
-        //             var recipeX = JsonSerializer.Deserialize<Recipe>(jsonBytes);
-        //             if (recipeX != null)
-        //             {
-        //                 AllRecipesList.Add(recipeX);
-        //             }
-        //         }
-        //     }
-        //     return AllRecipesList;
-        // }
-        private List<Recipe> GetListFromDataBase()
-        {
-            AllRecipesList.Clear();
-
-            foreach (string file in Directory.GetFiles(Folder, "*.json"))
+            else if (NewRecipe.Kcal >= 80 && NewRecipe.Kcal < 120)
             {
-                using (StreamReader sr = new StreamReader(file))
-                {
-                    JsonManager json = new JsonManager();
-                    Recipe recipeX = (Recipe)json.LoadObject(file);
-                    if (recipeX != null)
-                    {
-                        AllRecipesList.Add(recipeX);
-                    }
-                }
+                Folder = FolderStd + "MediumCaloryfic/";
             }
-            return AllRecipesList;
+            else if (NewRecipe.Kcal >= 120)
+            {
+                Folder = FolderStd + "HighCaloryfic/";
+            }
         }
-        public List<Recipe> PrintAndReturnListOfRecipes()
+        public List<Recipe> PrintAndReturnListOfRecipes(string kindOfRecipe)
         {
-            GetListFromDataBase();
+            GetListFromDataBase(kindOfRecipe);
             foreach (var recipe in AllRecipesList)
             {
                 Console.WriteLine($"Przepis na:\n\t{recipe.Name}");
@@ -237,6 +195,58 @@ namespace Dietownik
                 Console.WriteLine('\n');
             }
             return AllRecipesList;
+        }
+        private List<Recipe> GetListFromDataBase(string kindOfRecipe)
+        {
+            AllRecipesList.Clear();
+            
+            if (kindOfRecipe == "All")
+            {
+                Folder = FolderStd + "LowCaloryfic/";
+                GetDataFromFolder(Folder);
+                Folder = FolderStd + "MediumCaloryfic/";
+                GetDataFromFolder(Folder);
+                Folder = FolderStd + "HighCaloryfic/";
+                GetDataFromFolder(Folder);
+            }
+            else
+            {
+                ChooseFolderByKind(kindOfRecipe);
+                GetDataFromFolder(Folder);
+            }
+            Folder = FolderStd;
+            return AllRecipesList;
+        }
+        private void ChooseFolderByKind(string kindOfRecipe)
+        {
+            if (kindOfRecipe == "Low")
+            {
+                Folder = FolderStd + "LowCaloryfic/";
+            }
+            else if (kindOfRecipe == "Medium")
+            {
+                Folder = FolderStd + "MediumCaloryfic/";
+            }
+            else if (kindOfRecipe == "High")
+            {
+                Folder = FolderStd + "HighCaloryfic/";
+            }
+        }
+        private void GetDataFromFolder (string folder)
+        {
+            Folder = folder;
+            foreach (string file in Directory.GetFiles(Folder, "*.json"))
+                {
+                    using (StreamReader sr = new StreamReader(file))
+                    {
+                        JsonManager json = new JsonManager();
+                        Recipe recipeX = (Recipe)json.LoadObject(file);
+                        if (recipeX != null)
+                        {
+                            AllRecipesList.Add(recipeX);
+                        }
+                    }
+                }
         }
     }
 }
