@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace Dietownik
 {
@@ -13,26 +14,16 @@ namespace Dietownik
         private Recipe NewRecipe { get; set; }
         private List<Recipe> AllRecipesList { get; set; }
         private List<Ingredient> NewIngredients { get; set; }
+
         public RecipeManager()
         {
             AllRecipesList = new List<Recipe>();
         }
-        public void Start()     // Working good
-        {
-
-
-            AddRecipe();
-
-            // AddRecipe(recipeName, kcal);
-            // AddRecipeToDataBase();
-        }
-
-
-        private void AddRecipe()
+        public void AddRecipe()
         {
             string recipeName = "";
 
-            Console.WriteLine("Podaj nazwę produktu:\t");
+            Console.WriteLine("Podaj nazwę przepisu:\t");
             recipeName = Console.ReadLine();
 
             AddIngredients(recipeName);
@@ -160,7 +151,7 @@ namespace Dietownik
         }
         public List<Recipe> PrintAndReturnListOfRecipes(string kindOfRecipe)
         {
-            GetListFromDataBase(kindOfRecipe);
+            AllRecipesList = GetListFromDataBase(kindOfRecipe);
             foreach (var recipe in AllRecipesList)
             {
                 Console.WriteLine($"Przepis na:\n\t{recipe.Name}");
@@ -194,6 +185,10 @@ namespace Dietownik
                 }
                 Console.WriteLine('\n');
             }
+            if (AllRecipesList.Count == 0)
+            {
+                Console.WriteLine("List of Recipes is empty. Add some Recipe.\n");
+            }
             return AllRecipesList;
         }
         private List<Recipe> GetListFromDataBase(string kindOfRecipe)
@@ -209,25 +204,29 @@ namespace Dietownik
                 Folder = FolderStd + "HighCaloryfic/";
                 GetDataFromFolder(Folder);
             }
-            else
+            else if (kindOfRecipe == "Low" || kindOfRecipe == "Medium" || kindOfRecipe == "High")
             {
                 ChooseFolderByKind(kindOfRecipe);
                 GetDataFromFolder(Folder);
             }
+            else
+            {
+                Console.WriteLine($"Invalid input.");
+            }
             Folder = FolderStd;
-            return AllRecipesList;
+            return AllRecipesList.OrderBy(recipe => recipe.Name).ToList();
         }
         private void ChooseFolderByKind(string kindOfRecipe)
         {
-            if (kindOfRecipe == "Low")
+            if (kindOfRecipe == "Low" || kindOfRecipe == "low")
             {
                 Folder = FolderStd + "LowCaloryfic/";
             }
-            else if (kindOfRecipe == "Medium")
+            else if (kindOfRecipe == "Medium" || kindOfRecipe == "medium")
             {
                 Folder = FolderStd + "MediumCaloryfic/";
             }
-            else if (kindOfRecipe == "High")
+            else if (kindOfRecipe == "High" || kindOfRecipe == "high")
             {
                 Folder = FolderStd + "HighCaloryfic/";
             }

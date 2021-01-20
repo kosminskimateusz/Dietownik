@@ -16,15 +16,8 @@ namespace Dietownik
         {
             AllProductsList = new List<Product>();
         }
-        public void Start()     // Working good
-        {
-            // Pętla ze switchem:
-            // Opcja 1 Dodaj nowy produkt do bazy danych
-            AddProductToDataBase();
-            // Opcja 2 Edytuj produkt w bazie danych
-            // Usuń produkt z bazy danych
-        }
-        private void AddProductToDataBase()
+
+        public void AddProduct()
         {
             bool fileAdded = false;
             string productName = "";
@@ -44,7 +37,7 @@ namespace Dietownik
                 {
                     Console.WriteLine("Type kcal in 100g: ");
                     kcal = Decimal.Parse(Console.ReadLine());
-                    NewProduct = AddProduct(productName, kcal);
+                    NewProduct = new Product(productName, kcal);
                     json.SaveObject(NewProduct, path);
                     Console.WriteLine("Dodano nowy produkt do bazy danych.");
                     fileAdded = true;
@@ -55,11 +48,6 @@ namespace Dietownik
                 }
             } while (fileAdded == false);
         }
-        private Product AddProduct(string name, decimal kcal)  // Working good
-        {
-            return new Product(name, kcal);
-        }
-
         public List<Product> AllProducts()  // Working good
         {
             AllProductsList.Clear();
