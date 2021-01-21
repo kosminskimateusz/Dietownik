@@ -181,7 +181,7 @@ namespace Dietownik
                     {
                         Console.Write("\t");
                     }
-                    Console.WriteLine($"{ingredient.Weight}");
+                    Console.WriteLine($"{ingredient.Weight} g");
                 }
                 Console.WriteLine('\n');
             }

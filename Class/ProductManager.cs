@@ -71,7 +71,10 @@ namespace Dietownik
         {
             var productName = products.Select(product => product.Name).ToList();
             var productKcal = products.Select(product => product.Kcal).ToList();
-
+            if (products.Count == 0)
+            {
+                Console.WriteLine("List of products is empty. Add products in menu.");
+            }
             for (int i = 0; i < products.Count; i++)
             {
                 Console.Write($"Name: {productName[i]}\t");

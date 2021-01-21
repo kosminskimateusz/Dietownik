@@ -8,6 +8,42 @@ namespace Dietownik
     class JsonManager
     {
         private string Path { get; set; }
+        public JsonManager()
+        {
+            CheckDirecotrys();
+        }
+        private void CheckDirecotrys()
+        {
+            string folderPath = "";
+            bool productsExists = false;
+            bool recipesExists = false;
+
+            if (Directory.Exists("./Products/"))
+            {
+                productsExists = true;
+            }
+            else if ((Directory.Exists("./Recipes/") && Directory.Exists("./Recipes/*Caloryfic/")))
+            {
+                recipesExists = true;
+            }
+
+            if (productsExists == false)
+            {
+                folderPath = "./Products";
+                Directory.CreateDirectory(folderPath);
+            }
+            if (recipesExists == false)
+            {
+                folderPath = "./Recipes";
+                Directory.CreateDirectory(folderPath);
+                folderPath = "./Recipes/HighCaloryfic";
+                Directory.CreateDirectory(folderPath);
+                folderPath = "./Recipes/LowCaloryfic";
+                Directory.CreateDirectory(folderPath);
+                folderPath = "./Recipes/MediumCaloryfic";
+                Directory.CreateDirectory(folderPath);
+            }
+        }
         public void SaveObject(object dataObject, string path)
         {
             this.Path = path;
@@ -17,31 +53,8 @@ namespace Dietownik
 
             if (!File.Exists(path))
             {
-                bool exists = false;
-                string[] pathSplitted = path.Split('/');
-                foreach (var line in pathSplitted)
-                {
-                    if (Directory.Exists("./Products/"))
-                    {
-                        exists = true;
-                    }
-                    else if ((Directory.Exists("./Recipes/") && Directory.Exists("./Recipes/Caloryfic/")))
-                    {
-                        exists = true;
-                    }
+                CheckDirecotrys();
 
-                }
-                if (exists == false)
-                {
-                    string folderPath = "";
-                    folderPath += ".";
-                    for (int i = 0; i < (pathSplitted.Length - 1); i++)
-                    {
-                        folderPath += "/";
-                        folderPath += pathSplitted[i];
-                    }
-                    Directory.CreateDirectory(folderPath);
-                }
                 File.WriteAllText(Path, jsonString);
                 // Console.WriteLine("Zapisano bajty");
             }
@@ -69,6 +82,7 @@ namespace Dietownik
         }
         public object LoadObject(string path)
         {
+            CheckDirecotrys();
             var jsonString = File.ReadAllText(path);
             object dataObject = null;
             if (path.Contains("Recipes"))
