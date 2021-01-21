@@ -194,7 +194,7 @@ namespace Dietownik
         private List<Recipe> GetListFromDataBase(string kindOfRecipe)
         {
             AllRecipesList.Clear();
-            
+
             if (kindOfRecipe == "All")
             {
                 Folder = FolderStd + "LowCaloryfic/";
@@ -231,21 +231,21 @@ namespace Dietownik
                 Folder = FolderStd + "HighCaloryfic/";
             }
         }
-        private void GetDataFromFolder (string folder)
+        private void GetDataFromFolder(string folder)
         {
             Folder = folder;
+            JsonManager json = new JsonManager();
             foreach (string file in Directory.GetFiles(Folder, "*.json"))
+            {
+                using (StreamReader sr = new StreamReader(file))
                 {
-                    using (StreamReader sr = new StreamReader(file))
+                    Recipe recipeX = (Recipe)json.LoadObject(file);
+                    if (recipeX != null)
                     {
-                        JsonManager json = new JsonManager();
-                        Recipe recipeX = (Recipe)json.LoadObject(file);
-                        if (recipeX != null)
-                        {
-                            AllRecipesList.Add(recipeX);
-                        }
+                        AllRecipesList.Add(recipeX);
                     }
                 }
+            }
         }
     }
 }
