@@ -11,7 +11,7 @@ namespace Dietownik
         public void SaveObject(object dataObject, string path)
         {
             this.Path = path;
-            Console.WriteLine(dataObject.GetType());
+            // Console.WriteLine(dataObject.GetType());
             string jsonString;
             jsonString = JsonConvert.SerializeObject(dataObject, Formatting.Indented);
 
@@ -47,11 +47,11 @@ namespace Dietownik
             }
             else
             {
-                if (dataObject.GetType().ToString() == "Product")
+                if (dataObject.GetType().ToString().Contains("Product"))
                 {
                     Console.WriteLine("Produkt istnieje. Czy nadpisać produkt? (y/n)");
                 }
-                if (dataObject.GetType().ToString() == "Recipe")
+                if (dataObject.GetType().ToString().Contains("Recipe"))
                 {
                     Console.WriteLine("Przepis istnieje. Czy nadpisać przepis? (y/n)");
                 }
@@ -59,7 +59,7 @@ namespace Dietownik
                 if (overFileString == "y" || overFileString == "Y")
                 {
                     File.WriteAllText(path, jsonString);
-                    Console.WriteLine("Nadpisano");
+                    // Console.WriteLine("Nadpisano");
                 }
                 else if (overFileString == "n" || overFileString == "N")
                 {

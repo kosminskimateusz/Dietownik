@@ -33,19 +33,13 @@ namespace Dietownik
                 string fileName = productName;
                 path = Folder + fileName + Extention;
                 // Create productName.json file, Add all informations (Name, Kcal, Fat etc...) in json format. 
-                if (!File.Exists(path))
-                {
-                    Console.WriteLine("Type kcal in 100g: ");
-                    kcal = Decimal.Parse(Console.ReadLine());
-                    NewProduct = new Product(productName, kcal);
-                    json.SaveObject(NewProduct, path);
-                    Console.WriteLine("Dodano nowy produkt do bazy danych.");
-                    fileAdded = true;
-                }
-                else
-                {
-                    Console.WriteLine("Produkt o podanej nazwie juz istnieje.");
-                }
+
+                Console.WriteLine("Type kcal in 100g: ");
+                kcal = Decimal.Parse(Console.ReadLine());
+                NewProduct = new Product(productName, kcal);
+                json.SaveObject(NewProduct, path);
+                Console.WriteLine("Dodano nowy produkt do bazy danych.");
+                fileAdded = true;
             } while (fileAdded == false);
         }
         public List<Product> AllProducts()  // Working good
