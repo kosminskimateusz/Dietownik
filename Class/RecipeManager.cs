@@ -30,6 +30,10 @@ namespace Dietownik
             NewRecipe = new Recipe(recipeName, NewIngredients);
             AddRecipeToDataBase();
         }
+        public void ShowRecipe(string recipeName)
+        {
+            
+        }
         private void AddIngredients(string recipeName)
         {
             bool end = false;

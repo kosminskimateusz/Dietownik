@@ -10,9 +10,9 @@ namespace Dietownik
         private string Path { get; set; }
         public JsonManager()
         {
-            CheckDirecotrys();
+            CheckDirecotries();
         }
-        private void CheckDirecotrys()
+        private void CheckDirecotries()
         {
             string folderPath = "";
             bool productsExists = false;
@@ -53,7 +53,7 @@ namespace Dietownik
 
             if (!File.Exists(path))
             {
-                CheckDirecotrys();
+                CheckDirecotries();
 
                 File.WriteAllText(Path, jsonString);
                 // Console.WriteLine("Zapisano bajty");
@@ -82,7 +82,7 @@ namespace Dietownik
         }
         public object LoadObject(string path)
         {
-            CheckDirecotrys();
+            CheckDirecotries();
             var jsonString = File.ReadAllText(path);
             object dataObject = null;
             if (path.Contains("Recipes"))
