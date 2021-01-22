@@ -7,7 +7,7 @@ namespace Dietownik
         private string[] Options = new string[]
         {
             "Show List Recipes",
-            "Show Recipe",
+            "Search recipes by name",
             "Show List Products",
             "Show Product",
             "Add Recipes",
@@ -22,6 +22,7 @@ namespace Dietownik
             {
                 PrintOptions();
                 ChooseOptions(ref option);
+                // Console.Clear();
             } while (option != 0);
         }
         private void PrintOptions()
@@ -57,6 +58,11 @@ namespace Dietownik
                         Console.WriteLine("Choose Low Caloryfic, Medium Caloryfic, High Caloryfic or All Recipes (Low/Medium/High/All):");
                         string kindOfRecipe = Console.ReadLine();
                         recipeManager.PrintAndReturnListOfRecipes(kindOfRecipe);
+                        break;
+                    case 2:
+                        Console.WriteLine("Search name:");
+                        string name = Console.ReadLine();
+                        recipeManager.ShowRecipeDetails();
                         break;
                     case 3:
                         productManager.PrintProductList(productManager.AllProducts());

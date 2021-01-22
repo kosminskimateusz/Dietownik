@@ -3,3 +3,4 @@ obj/
 Products/
 Recipes/
 .Program.cs.swp
+.vscode

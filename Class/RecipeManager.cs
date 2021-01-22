@@ -30,9 +30,48 @@ namespace Dietownik
             NewRecipe = new Recipe(recipeName, NewIngredients);
             AddRecipeToDataBase();
         }
-        public void ShowRecipe(string recipeName)
+        public void ShowRecipeDetails(string recipeName)
         {
-            
+            List<Recipe> allRecipes = GetListFromDataBase("All");
+            List<Recipe> foundRecipes = allRecipes.Where(recipe => recipe.Name.Contains(recipeName.ToLower())).ToList();
+
+            foreach (var recipe in foundRecipes)
+            {
+                Console.WriteLine($"Przepis na:\n\t{recipe.Name}");
+                Console.WriteLine($"Lista składników:");
+                foreach (var ingredient in recipe.Ingredients)
+                {
+                    int tab = 0;
+                    if (ingredient.Name.Length < 9)
+                    {
+                        tab = 4;
+                    }
+                    if ((ingredient.Name.Length >= 9) && (ingredient.Name.Length < 15))
+                    {
+                        tab = 3;
+                    }
+                    if ((ingredient.Name.Length >= 15) && (ingredient.Name.Length < 25))
+                    {
+                        tab = 2;
+                    }
+                    if ((ingredient.Name.Length >= 25) && (ingredient.Name.Length < 34))
+                    {
+                        tab = 1;
+                    }
+
+                    Console.Write($"\t{ingredient.Name}");
+                    for (int i = 0; i < tab; i++)
+                    {
+                        Console.Write("\t");
+                    }
+                    Console.WriteLine($"{ingredient.Weight} g");
+                }
+                Console.WriteLine('\n');
+            }
+            if (foundRecipes.Count == 0)
+            {
+                Console.WriteLine($"There's no recipe contains search phrase: {recipeName}\n");
+            }
         }
         private void AddIngredients(string recipeName)
         {

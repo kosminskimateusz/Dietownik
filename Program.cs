@@ -8,7 +8,6 @@ namespace Dietownik
     {
         static void Main(string[] args)
         {
-            
             // ProductManager productManager = new ProductManager();
             // productManager.Start();
             // productManager.PrintProductList(productManager.AllProducts());
