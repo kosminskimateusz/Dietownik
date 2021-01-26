@@ -33,7 +33,7 @@ namespace Dietownik
         public void ShowRecipeDetails(string recipeName)
         {
             List<Recipe> allRecipes = GetListFromDataBase("All");
-            List<Recipe> foundRecipes = allRecipes.Where(recipe => recipe.Name.Contains(recipeName.ToLower())).ToList();
+            List<Recipe> foundRecipes = allRecipes.Where(recipe => recipe.Name.ToLower().Contains(recipeName.ToLower())).ToList();
 
             foreach (var recipe in foundRecipes)
             {

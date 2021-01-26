@@ -10,7 +10,7 @@ namespace Dietownik
             "Search recipes by name",
             "Show List Products",
             "Show Product",
-            "Add Recipes",
+            "Add Recipe",
             "Add Product",
 
             "Exit",
