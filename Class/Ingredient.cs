@@ -2,7 +2,7 @@ namespace Dietownik
 {
     class Ingredient : Product
     {
-        public decimal Weight { get; protected set; }
+        public decimal Weight { get; set; }
 
         public Ingredient(string name, decimal kcal, decimal weight) : base(name, kcal)
         {

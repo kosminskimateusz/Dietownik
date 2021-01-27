@@ -5,9 +5,9 @@ namespace Dietownik
 {
     class Recipe
     {
-        public string Name { get; protected set; }
-        public List<Ingredient> Ingredients { get; protected set; }
-        public decimal Kcal { get; protected set; }
+        public string Name { get; set; }
+        public List<Ingredient> Ingredients { get; set; }
+        public decimal Kcal { get; set; }
         private decimal Weight { get; set; }
         public Recipe(string recipeName, List<Ingredient> ingredients)
         {
