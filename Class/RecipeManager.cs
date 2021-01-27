@@ -8,9 +8,8 @@ namespace Dietownik
     class RecipeManager
     {
         private const string FolderStd = "./Recipes/";
-        private string Folder { get; set; }
         private const string Extention = ".json";
-        private string NewRecipeName { get; set; }
+        private string Folder { get; set; }
         private Recipe NewRecipe { get; set; }
         private List<Recipe> AllRecipesList { get; set; }
         private List<Ingredient> NewIngredients { get; set; }
