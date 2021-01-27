@@ -10,7 +10,6 @@ namespace Dietownik
         private const string FolderStd = "./Recipes/";
         private const string Extention = ".json";
         private string Folder { get; set; }
-        
         private Recipe NewRecipe { get; set; }
         private List<Recipe> AllRecipesList { get; set; }
         private List<Ingredient> NewIngredients { get; set; }
