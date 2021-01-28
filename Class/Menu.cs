@@ -60,9 +60,9 @@ namespace Dietownik
                         recipeManager.PrintAndReturnListOfRecipes(kindOfRecipe);
                         break;
                     case 2:
-                        Console.WriteLine("Search name:");
-                        string name = Console.ReadLine();
-                        recipeManager.ShowRecipeDetails(name);
+                        Console.WriteLine("Search in name:");
+                        string phrase = Console.ReadLine();
+                        recipeManager.Search(phrase);
                         break;
                     case 3:
                         productManager.PrintProductList(productManager.AllProducts());

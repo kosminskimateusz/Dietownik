@@ -29,10 +29,10 @@ namespace Dietownik
             NewRecipe = new Recipe(recipeName, NewIngredients);
             AddRecipeToDataBase();
         }
-        public void ShowRecipeDetails(string recipeName)
+        public void Search(string phrase)
         {
             List<Recipe> allRecipes = GetListFromDataBase("All");
-            List<Recipe> foundRecipes = allRecipes.Where(recipe => recipe.Name.ToLower().Contains(recipeName.ToLower())).ToList();
+            List<Recipe> foundRecipes = allRecipes.Where(recipe => recipe.Name.ToLower().Contains(phrase.ToLower())).ToList();
 
             foreach (var recipe in foundRecipes)
             {
@@ -69,7 +69,7 @@ namespace Dietownik
             }
             if (foundRecipes.Count == 0)
             {
-                Console.WriteLine($"There's no recipe contains search phrase: {recipeName}\n");
+                Console.WriteLine($"There's no recipe contains search phrase: {phrase}\n");
             }
         }
         private void AddIngredients(string recipeName)
