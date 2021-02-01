@@ -9,6 +9,7 @@ namespace Dietownik
         public List<Ingredient> Ingredients { get; set; }
         public decimal Kcal { get; set; }
         private decimal Weight { get; set; }
+
         public Recipe(string recipeName, List<Ingredient> ingredients)
         {
             this.Name = recipeName;
@@ -22,6 +23,7 @@ namespace Dietownik
             this.Kcal /= Weight;
             this.Kcal = Math.Round(this.Kcal, 2);
         }
+        
         public List<Ingredient> GetListIngredients()
         {
             return Ingredients;

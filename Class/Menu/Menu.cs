@@ -5,6 +5,7 @@ namespace Dietownik
     abstract class Menu
     {
         protected string[] Options { get; set; }
+
         public void Start()
         {
             int option = 0;
@@ -14,6 +15,7 @@ namespace Dietownik
                 ChooseOptions(ref option);
             } while (option != 0);
         }
+
         private void PrintOptions()
         {
             int optionNumber = 1;
@@ -34,6 +36,7 @@ namespace Dietownik
             }
 
         }
+        
         protected abstract void ChooseOptions(ref int option);
     }
 }

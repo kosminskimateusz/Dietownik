@@ -12,6 +12,7 @@ namespace Dietownik
         private const string Extention = ".json";
         private Product NewProduct { get; set; }
         private List<Product> All { get; set; }
+        
         public ProductsOrganizer()
         {
             this.All = new List<Product>();
@@ -49,6 +50,7 @@ namespace Dietownik
         {
             return Folder + fileName + Extention;
         }
+
         public List<Product> GetAll()  // Working good
         {
             All.Clear();
