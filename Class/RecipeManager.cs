@@ -155,26 +155,30 @@ namespace Dietownik
             string fileName = NewRecipe.Name;
             ChooseFolderByKcal();
             path = Folder + fileName + Extention;
+            bool fileAdded = false;
             // Create productName.json file, Add all informations (Name, Kcal, Fat etc...) in json format. 
-            if (!File.Exists(path))
+            do
             {
                 JsonManager json = new JsonManager();
                 json.SaveObject(NewRecipe, path);
-                Console.WriteLine("Dodano nowy przepis do bazy danych.\n");
-                Console.WriteLine($"Nazwa: {NewRecipe.Name}");
-
-                using (StreamReader sr = new StreamReader(path))
+                if (json.SaveSucced())
                 {
-                    var recipeX = json.LoadObject(path);
+                    fileAdded = true;
+                    AllRecipesList.Add(NewRecipe);
                 }
+                else
+                {
+                    Console.WriteLine("Try again.");
+                    NewRecipe.Name = Console.ReadLine();
+                }
+            } while (fileAdded == false);
 
-                AllRecipesList.Add(NewRecipe);
-            }
-            else
-            {
-                Console.WriteLine("Przepis o podanej nazwie juz istnieje.");
-            }
-            Folder = FolderStd;
+            ResetFolderPath();
+        }
+
+        private void ResetFolderPath()
+        {
+            this.Folder = FolderStd;
         }
         private void ChooseFolderByKcal()
         {

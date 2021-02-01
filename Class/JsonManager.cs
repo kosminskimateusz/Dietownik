@@ -3,97 +3,116 @@ using System.Text;
 using Newtonsoft.Json;
 using System.IO;
 
+
 namespace Dietownik
 {
     class JsonManager
     {
-        private string Path { get; set; }
+        private object DataObject { get; set; }
+        private String[] _paths = {
+                "./Products",
+                "./Recipes",
+                "./Recipes/HighCaloryfic",
+                "./Recipes/LowCaloryfic",
+                "./Recipes/MediumCaloryfic"
+            };
+        private bool _saved = false;
         public JsonManager()
         {
-            CheckDirecotries();
+            CreateNonexistentDirectories();
         }
-        private void CheckDirecotries()
-        {
-            string folderPath = "";
-            bool productsExists = false;
-            bool recipesExists = false;
 
-            if (Directory.Exists("./Products/"))
-            {
-                productsExists = true;
-            }
-            else if ((Directory.Exists("./Recipes/") && Directory.Exists("./Recipes/*Caloryfic/")))
-            {
-                recipesExists = true;
-            }
-
-            if (productsExists == false)
-            {
-                folderPath = "./Products";
-                Directory.CreateDirectory(folderPath);
-            }
-            if (recipesExists == false)
-            {
-                folderPath = "./Recipes";
-                Directory.CreateDirectory(folderPath);
-                folderPath = "./Recipes/HighCaloryfic";
-                Directory.CreateDirectory(folderPath);
-                folderPath = "./Recipes/LowCaloryfic";
-                Directory.CreateDirectory(folderPath);
-                folderPath = "./Recipes/MediumCaloryfic";
-                Directory.CreateDirectory(folderPath);
-            }
-        }
         public void SaveObject(object dataObject, string path)
         {
-            this.Path = path;
+            this.DataObject = dataObject;
             // Console.WriteLine(dataObject.GetType());
-            string jsonString;
-            jsonString = JsonConvert.SerializeObject(dataObject, Formatting.Indented);
+            string jsonString = JsonConvert.SerializeObject(DataObject, Formatting.Indented);
 
             if (!File.Exists(path))
             {
-                CheckDirecotries();
-
-                File.WriteAllText(Path, jsonString);
-                // Console.WriteLine("Zapisano bajty");
+                CreateNonexistentDirectories();
+                File.WriteAllText(path, jsonString);
+                Console.WriteLine($"{dataObject.GetType().ToString().Split(".")[1]}\tadded.\n");
+                _saved = true;
             }
             else
             {
-                if (dataObject.GetType().ToString().Contains("Product"))
-                {
-                    Console.WriteLine("Produkt istnieje. Czy nadpisać produkt? (y/n)");
-                }
-                if (dataObject.GetType().ToString().Contains("Recipe"))
-                {
-                    Console.WriteLine("Przepis istnieje. Czy nadpisać przepis? (y/n)");
-                }
-                string overFileString = Console.ReadLine();
-                if (overFileString == "y" || overFileString == "Y")
+                AskToOverride();
+                if (ConfirmFromUser())
                 {
                     File.WriteAllText(path, jsonString);
-                    // Console.WriteLine("Nadpisano");
+                    Console.WriteLine($"{dataObject.GetType().ToString().Split(".")[1]}\toverrided.\n");
+                    _saved = true;
                 }
-                else if (overFileString == "n" || overFileString == "N")
+                else
                 {
-                    Console.WriteLine("Nie nadpisano.");
+                    // Console.WriteLine("Nie nadpisano.");
+                    _saved = false;
                 }
             }
+            DataObject = null;
         }
+
+        public bool SaveSucced()
+        {
+            return _saved;
+        }
+
         public object LoadObject(string path)
         {
-            CheckDirecotries();
-            var jsonString = File.ReadAllText(path);
-            object dataObject = null;
+            DataObject = null;
+            CreateNonexistentDirectories();
             if (path.Contains("Recipes"))
             {
-                dataObject = JsonConvert.DeserializeObject<Recipe>(jsonString);
+                DataObject = JsonConvert.DeserializeObject<Recipe>(File.ReadAllText(path));
             }
             if (path.Contains("Products"))
             {
-                dataObject = JsonConvert.DeserializeObject<Product>(jsonString);
+                DataObject = JsonConvert.DeserializeObject<Product>(File.ReadAllText(path));
             }
-            return dataObject;
+            return DataObject;
         }
+
+        private void CreateNonexistentDirectories()
+        {
+            foreach (var path in _paths)
+            {
+                if (!Directory.Exists(path))
+                    Directory.CreateDirectory(path);
+            }
+        }
+
+        private void AskToOverride()
+        {
+            string typeString = DataObject.GetType().ToString().Split(".")[1];
+            Console.WriteLine($"{typeString} exist. Override {typeString.ToLower()}? (y/n)?");
+        }
+
+        private bool ConfirmFromUser()
+        {
+            bool confirm = false, correctInput;
+            do
+            {
+                string userInput = Console.ReadLine();
+                if (userInput == "y" || userInput == "Y")
+                {
+                    confirm = true;
+                    correctInput = true;
+                }
+                else if (userInput == "n" || userInput == "N")
+                {
+                    confirm = false;
+                    correctInput = true;
+                }
+                else
+                {
+                    correctInput = false;
+                    Console.WriteLine("Wrong input. Try again. (y/n)");
+                }
+            } while (!correctInput);
+
+            return confirm;
+        }
+
     }
 }

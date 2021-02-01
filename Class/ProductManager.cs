@@ -20,26 +20,31 @@ namespace Dietownik
         public void AddProduct()
         {
             bool fileAdded = false;
-            string productName = "";
-            string path = "";
             decimal kcal;
-            JsonManager json = new JsonManager();
 
             do
             {
                 Console.WriteLine("Type name of product:\t");
-                productName = Console.ReadLine();
+                string productName = Console.ReadLine();
 
                 string fileName = productName;
-                path = Folder + fileName + Extention;
+                string path = Folder + fileName + Extention;
                 // Create productName.json file, Add all informations (Name, Kcal, Fat etc...) in json format. 
 
                 Console.WriteLine("Type kcal in 100g: ");
                 kcal = Decimal.Parse(Console.ReadLine());
                 NewProduct = new Product(productName, kcal);
+                JsonManager json = new JsonManager();
                 json.SaveObject(NewProduct, path);
-                Console.WriteLine("Dodano nowy produkt do bazy danych.");
-                fileAdded = true;
+                if (json.SaveSucced())
+                {
+                    fileAdded = true;
+                    // 
+                }
+                else
+                {
+                    Console.WriteLine("Try again.");
+                }
             } while (fileAdded == false);
         }
         public List<Product> AllProducts()  // Working good
@@ -62,37 +67,33 @@ namespace Dietownik
             return AllProductsList;
         }
 
-        public List<Product> SortProductsByKcal()     //Working good
+        public List<Product> SortProducts(string typeSort)     //Working good
         {
-            return AllProducts().OrderBy(product => product.Kcal).ToList();
+            if (typeSort == "Name")
+                return AllProducts().OrderBy(product => product.Name).ToList();
+            else if (typeSort == "Kcal")
+                return AllProducts().OrderBy(product => product.Kcal).ToList();
+            else
+                return AllProducts().OrderBy(product => product.Name).ToList();
         }
 
         public void PrintProductList(List<Product> products)
         {
-            var productName = products.Select(product => product.Name).ToList();
-            var productKcal = products.Select(product => product.Kcal).ToList();
+            string tab = "---- ";
             if (products.Count == 0)
             {
                 Console.WriteLine("List of products is empty. Add products in menu.");
             }
-            for (int i = 0; i < products.Count; i++)
+            foreach (var product in products)
             {
-                Console.Write($"Name: {productName[i]}\t");
-                string tab = "---- ";
+                Console.Write($"Name: {product.Name}\t");
 
-                if (productName[i].Length <= 10)
+                for (var i = 0; i <= product.Name.Length / 5; i++)
                 {
-                    Console.Write($"\t\t{tab}");
+                    Console.Write($"\t");
                 }
-                else if ((productName[i].Length > 10) && (productName[i].Length <= 20))
-                {
-                    Console.Write($"\t{tab}");
-                }
-                if (productName[i].Length > 20)
-                {
-                    Console.Write(tab);
-                }
-                Console.WriteLine($"Kcal: {productKcal[i]}");
+                Console.Write(tab);
+                Console.WriteLine($"Kcal: {product.Kcal}");
             }
         }
         // Dorobić metody: Edytuj produkt, Usuń produkt.
