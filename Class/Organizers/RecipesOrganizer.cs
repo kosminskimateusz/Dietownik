@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Dietownik
 {
-    class RecipeManager
+    class RecipesOrganizer
     {
         private const string FolderStd = "./Recipes/";
         private const string Extention = ".json";
@@ -14,7 +14,7 @@ namespace Dietownik
         private List<Recipe> AllRecipesList { get; set; }
         private List<Ingredient> NewIngredients { get; set; }
 
-        public RecipeManager()
+        public RecipesOrganizer()
         {
             AllRecipesList = new List<Recipe>();
         }
@@ -87,10 +87,10 @@ namespace Dietownik
         }
         private List<Product> PrintAndReturnListOfProducts(List<Product> products)
         {
-            ProductManager productManager = new ProductManager();
+            ProductsOrganizer productsOrganizer = new ProductsOrganizer();
             Console.WriteLine("List of all products:\n");
-            products = productManager.AllProducts();
-            productManager.PrintProductList(products);
+            products = productsOrganizer.GetAll();
+            productsOrganizer.Print();
             Console.WriteLine('\n');
             return products;
         }
@@ -151,11 +151,9 @@ namespace Dietownik
         }
         private void AddRecipeToDataBase()
         {
-            string path;
-            string fileName = NewRecipe.Name;
-            ChooseFolderByKcal();
-            path = Folder + fileName + Extention;
+            this.Folder = GetFolderByKcal();
             bool fileAdded = false;
+            string path = GetPath(NewRecipe.Name);
             // Create productName.json file, Add all informations (Name, Kcal, Fat etc...) in json format. 
             do
             {
@@ -175,25 +173,24 @@ namespace Dietownik
 
             ResetFolderPath();
         }
+        private string GetPath(string fileName)
+        {
+            return Folder + fileName + Extention;
+
+        }
 
         private void ResetFolderPath()
         {
             this.Folder = FolderStd;
         }
-        private void ChooseFolderByKcal()
+        private string GetFolderByKcal()
         {
             if (NewRecipe.Kcal < 80)
-            {
-                Folder = FolderStd + "LowCaloryfic/";
-            }
-            else if (NewRecipe.Kcal >= 80 && NewRecipe.Kcal < 120)
-            {
-                Folder = FolderStd + "MediumCaloryfic/";
-            }
+                return FolderStd + "LowCaloryfic/";
             else if (NewRecipe.Kcal >= 120)
-            {
-                Folder = FolderStd + "HighCaloryfic/";
-            }
+                return FolderStd + "HighCaloryfic/";
+            else
+                return FolderStd + "MediumCaloryfic/";
         }
         public List<Recipe> PrintAndReturnListOfRecipes(string kindOfRecipe)
         {

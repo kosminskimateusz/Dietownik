@@ -19,29 +19,29 @@ namespace Dietownik
             bool success = Int32.TryParse(Console.ReadLine(), out option);
             if (success)
             {
-                RecipeManager recipeManager = new RecipeManager();
-                ProductManager productManager = new ProductManager();
+                RecipesOrganizer recipesOrganizer = new RecipesOrganizer();
+                ProductsOrganizer productsOrganizer = new ProductsOrganizer();
 
                 switch (option)
                 {
                     case 1:
                         Console.WriteLine("Choose Low Caloryfic, Medium Caloryfic, High Caloryfic or All Recipes (Low/Medium/High/All):");
                         string kindOfRecipe = Console.ReadLine();
-                        recipeManager.PrintAndReturnListOfRecipes(kindOfRecipe);
+                        recipesOrganizer.PrintAndReturnListOfRecipes(kindOfRecipe);
                         break;
                     case 2:
                         Console.WriteLine("Search in name:");
                         string phrase = Console.ReadLine();
-                        recipeManager.Search(phrase);
+                        recipesOrganizer.Search(phrase);
                         break;
                     case 3:
-                        productManager.PrintProductList(productManager.AllProducts());
+                        productsOrganizer.Print();
                         break;
                     case 5:
-                        recipeManager.AddRecipe();
+                        recipesOrganizer.AddRecipe();
                         break;
                     case 6:
-                        productManager.AddProduct();
+                        productsOrganizer.Add();
                         break;
                     case 0:
                         break;
