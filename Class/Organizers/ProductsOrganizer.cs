@@ -12,7 +12,7 @@ namespace Dietownik
         private const string Extention = ".json";
         private Product NewProduct { get; set; }
         private List<Product> All { get; set; }
-        
+
         public ProductsOrganizer()
         {
             this.All = new List<Product>();
@@ -56,7 +56,7 @@ namespace Dietownik
             All.Clear();
             JsonManager json = new JsonManager();
 
-            foreach (string file in Directory.GetFiles(Folder, "*.json"))
+            foreach (string file in Directory.GetFiles(Folder, "*" + Extention))
             {
                 Product product = (Product)json.LoadObject(file);
 
@@ -81,22 +81,10 @@ namespace Dietownik
         public void Print()
         {
             this.All = GetAll();
-            string tab = "---- ";
             if (All.Count == 0)
-            {
                 Console.WriteLine("List of products is empty. Add products in menu.");
-            }
-            foreach (var product in All)
-            {
-                Console.Write($"Name: {product.Name}\t");
-
-                for (var i = 0; i <= product.Name.Length / 5; i++)
-                {
-                    Console.Write($"\t");
-                }
-                Console.Write(tab);
-                Console.WriteLine($"Kcal: {product.Kcal}");
-            }
+            Printer printer = new Printer();
+            printer.Print(All);
         }
         // Dorobić metody: Edytuj produkt, Usuń produkt.
     }

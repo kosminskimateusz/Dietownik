@@ -36,7 +36,7 @@ namespace Dietownik
             }
 
         }
-        
+
         protected abstract void ChooseOptions(ref int option);
     }
 }

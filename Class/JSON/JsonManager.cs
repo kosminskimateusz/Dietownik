@@ -17,7 +17,7 @@ namespace Dietownik
                 "./Recipes/MediumCaloryfic"
             };
         private bool _saved = false;
-        
+
         public JsonManager()
         {
             CreateNonexistentDirectories();

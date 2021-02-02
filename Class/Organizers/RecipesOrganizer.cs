@@ -18,7 +18,7 @@ namespace Dietownik
         {
             AllRecipesList = new List<Recipe>();
         }
-        
+
         public void AddRecipe()
         {
             string recipeName = "";
@@ -30,7 +30,7 @@ namespace Dietownik
             NewRecipe = new Recipe(recipeName, NewIngredients);
             AddRecipeToDataBase();
         }
-        public void Search(string phrase)
+        public List<Recipe> Search(string phrase)
         {
             List<Recipe> allRecipes = GetListFromDataBase("All");
             List<Recipe> foundRecipes = allRecipes.Where(recipe => recipe.Name.ToLower().Contains(phrase.ToLower())).ToList();
@@ -40,26 +40,30 @@ namespace Dietownik
             if (foundRecipes.Count == 0)
             {
                 Console.WriteLine($"There's no recipe contains search phrase: {phrase}\n");
+                return null;
             }
+            return foundRecipes;
+        }
+
+        public Recipe Choose(string phrase)
+        {
+            List<Recipe> allRecipes = GetListFromDataBase("All");
+            List<Recipe> foundRecipes = allRecipes.Where(recipe => recipe.Name.ToLower() == phrase.ToLower()).ToList();
+
+            // Print(AllRecipesList);
+
+            if (foundRecipes.Count == 0)
+            {
+                Console.WriteLine($"There's no recipe contains search phrase: {phrase}\n");
+                return null;
+            }
+            return foundRecipes[0];
         }
 
         private void Print(List<Recipe> foundRecipes)
         {
-            foreach (var recipe in foundRecipes)
-            {
-                Console.WriteLine($"Przepis na:\n\t{recipe.Name}");
-                Console.WriteLine($"Lista składników:");
-                foreach (var ingredient in recipe.Ingredients)
-                {
-                    Console.Write($"\t{ingredient.Name}");
-                    for (var i = 5; i >= ingredient.Name.Length / 3; i--)
-                    {
-                        Console.Write($"\t");
-                    }
-                    Console.WriteLine($"{ingredient.Weight} g");
-                }
-                Console.WriteLine('\n');
-            }
+            Printer printer = new Printer();
+            printer.Print(foundRecipes);
         }
 
         private void AddIngredients(string recipeName)
@@ -231,7 +235,7 @@ namespace Dietownik
             else
                 return FolderStd;
         }
-        
+
         private void GetDataFromFolder(string folder)
         {
             Folder = folder;

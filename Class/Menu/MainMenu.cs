@@ -12,8 +12,9 @@ namespace Dietownik
                 "Search recipes by name",       // 2
                 "Show List Products",           // 3
                 "Show Product",                 // 4
-                "Add Recipe",                   // 5
-                "Add Product",                  // 6
+                "Show Recipe",                  // 5
+                "Add Recipe",                   // 6
+                "Add Product",                  // 7
 
                 "Exit",
             };
@@ -26,6 +27,8 @@ namespace Dietownik
             {
                 RecipesOrganizer recipesOrganizer = new RecipesOrganizer();
                 ProductsOrganizer productsOrganizer = new ProductsOrganizer();
+                Printer printer = new Printer();
+                RecipeCounter recipeCounter = new RecipeCounter();
 
                 switch (option)
                 {
@@ -40,15 +43,26 @@ namespace Dietownik
                         recipesOrganizer.Search(phrase);
                         break;
                     case 3:
-                        productsOrganizer.Print();
+                        printer.Print(productsOrganizer.GetAll());
                         break;
                     case 4:
 
                         break;
                     case 5:
-                        recipesOrganizer.AddRecipe();
+                        Console.WriteLine($"Insert recipe name: ");
+                        string userInputRecipeName = Console.ReadLine();
+                        Console.WriteLine($"Insert prefer kcal of complete dish: ");
+                        decimal userInputKcal = Decimal.Parse(Console.ReadLine());
+
+                        Recipe recipe = recipesOrganizer.Choose(userInputRecipeName);
+                        printer.Print(recipe);
+                        recipe = recipeCounter.Count(recipe, userInputKcal);
+                        printer.Print(recipe);
                         break;
                     case 6:
+                        recipesOrganizer.AddRecipe();
+                        break;
+                    case 7:
                         productsOrganizer.Add();
                         break;
                     case 0:
