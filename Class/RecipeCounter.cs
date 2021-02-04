@@ -17,7 +17,7 @@ namespace Dietownik
         // !!!
         public Recipe Count(Recipe recipe, decimal kcal)
         {
-            this._kcalFactor = kcal / recipe.Kcal;
+            this._kcalFactor = kcal / recipe.FullKcal;
 
             return new Recipe(recipe, _kcalFactor);
             // Recipe originRecipe = new Recipe(recipe);

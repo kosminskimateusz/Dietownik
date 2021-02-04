@@ -131,7 +131,7 @@ namespace Dietownik
                         {
                             Console.WriteLine("Insert weigth of ingredient: ");
                             decimal newIngredientWeigth = decimal.Parse(Console.ReadLine());
-                            Ingredient newIngredient = new Ingredient(product.Name, product.Kcal, newIngredientWeigth);
+                            Ingredient newIngredient = new Ingredient(product.Name, product.KcalPerHundredGrams, newIngredientWeigth);
                             NewIngredients.Add(newIngredient);
                         }
                         else
@@ -180,9 +180,9 @@ namespace Dietownik
 
         private string GetFolderByKcal()
         {
-            if (NewRecipe.Kcal < 80)
+            if (NewRecipe.KcalPerHundredGrams < 80)
                 return (FolderStd + "LowCaloryfic/");
-            else if (NewRecipe.Kcal >= 120)
+            else if (NewRecipe.KcalPerHundredGrams >= 120)
                 return (FolderStd + "HighCaloryfic/");
             else
                 return (FolderStd + "MediumCaloryfic/");

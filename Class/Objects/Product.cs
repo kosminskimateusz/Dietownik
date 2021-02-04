@@ -5,56 +5,56 @@ namespace Dietownik
     class Product
     {
         public string Name { get; set; }
-        public decimal Kcal { get; set; }
-        public decimal Fat { get; set; }
-        public decimal Carbs { get; set; }
-        public decimal Protein { get; set; }
-        public decimal Fiber { get; set; }
-        public decimal Salt { get; set; }
+        public decimal KcalPerHundredGrams { get; set; }
+        public decimal FatPerHundredGrams { get; set; }
+        public decimal CarbsPerHundredGrams { get; set; }
+        public decimal ProteinPerHundredGrams { get; set; }
+        public decimal FiberPerHundredGrams { get; set; }
+        public decimal SaltPerHundredGrams { get; set; }
 
         public Product(string name, decimal kcal)
         {
             this.Name = name;
-            this.Kcal = kcal;
-            this.Fat = 0;
-            this.Carbs = 0;
-            this.Protein = 0;
-            this.Fiber = 0;
-            this.Salt = 0;
+            this.KcalPerHundredGrams = kcal;
+            this.FatPerHundredGrams = 0;
+            this.CarbsPerHundredGrams = 0;
+            this.ProteinPerHundredGrams = 0;
+            this.FiberPerHundredGrams = 0;
+            this.SaltPerHundredGrams = 0;
         }
 
         public Product(string name, decimal kcal, decimal fat, decimal carbs, decimal protein)
         {
             this.Name = name;
-            this.Kcal = kcal;
-            this.Fat = fat;
-            this.Carbs = carbs;
-            this.Protein = protein;
-            this.Fiber = 0;
-            this.Salt = 0;
+            this.KcalPerHundredGrams = kcal;
+            this.FatPerHundredGrams = fat;
+            this.CarbsPerHundredGrams = carbs;
+            this.ProteinPerHundredGrams = protein;
+            this.FiberPerHundredGrams = 0;
+            this.SaltPerHundredGrams = 0;
         }
 
         public Product(string name, decimal kcal, decimal fat, decimal carbs, decimal protein, decimal fibre)
         {
             this.Name = name;
-            this.Kcal = kcal;
-            this.Fat = fat;
-            this.Carbs = carbs;
-            this.Protein = protein;
-            this.Fiber = fibre;
-            this.Salt = 0;
+            this.KcalPerHundredGrams = kcal;
+            this.FatPerHundredGrams = fat;
+            this.CarbsPerHundredGrams = carbs;
+            this.ProteinPerHundredGrams = protein;
+            this.FiberPerHundredGrams = fibre;
+            this.SaltPerHundredGrams = 0;
         }
 
         [JsonConstructor]
         public Product(string name, decimal kcal, decimal fat, decimal carbs, decimal protein, decimal fibre, decimal salt)
         {
             this.Name = name;
-            this.Kcal = kcal;
-            this.Fat = fat;
-            this.Carbs = carbs;
-            this.Protein = protein;
-            this.Fiber = fibre;
-            this.Salt = salt;
+            this.KcalPerHundredGrams = kcal;
+            this.FatPerHundredGrams = fat;
+            this.CarbsPerHundredGrams = carbs;
+            this.ProteinPerHundredGrams = protein;
+            this.FiberPerHundredGrams = fibre;
+            this.SaltPerHundredGrams = salt;
         }
     }
 }

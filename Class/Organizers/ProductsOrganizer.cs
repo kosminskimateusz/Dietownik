@@ -73,7 +73,7 @@ namespace Dietownik
             if (typeSort == "Name")
                 return GetAll().OrderBy(product => product.Name).ToList();
             else if (typeSort == "Kcal")
-                return GetAll().OrderBy(product => product.Kcal).ToList();
+                return GetAll().OrderBy(product => product.KcalPerHundredGrams).ToList();
             else
                 return GetAll().OrderBy(product => product.Name).ToList();
         }

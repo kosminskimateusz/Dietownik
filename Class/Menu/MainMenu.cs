@@ -56,8 +56,8 @@ namespace Dietownik
 
                         Recipe recipe = recipesOrganizer.Choose(userInputRecipeName);
                         printer.Print(recipe);
-                        recipe = recipeCounter.Count(recipe, userInputKcal);
-                        printer.Print(recipe);
+                        Recipe newRecipe = recipeCounter.Count(recipe, userInputKcal);
+                        printer.Print(newRecipe);
                         break;
                     case 6:
                         recipesOrganizer.AddRecipe();

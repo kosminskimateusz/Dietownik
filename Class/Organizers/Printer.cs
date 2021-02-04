@@ -5,7 +5,6 @@ namespace Dietownik
 {
     class Printer
     {
-
         public void Print(List<Product> products)
         {
             foreach (var product in products)
@@ -24,7 +23,7 @@ namespace Dietownik
                 Console.Write($"\t");
             }
             Console.Write(tab);
-            Console.WriteLine($"Kcal: {product.Kcal}");
+            Console.WriteLine($"Kcal: {product.KcalPerHundredGrams}");
         }
         public void Print(List<Recipe> recipes)
         {
@@ -42,7 +41,7 @@ namespace Dietownik
             {
                 Print(ingredient);
             }
-            Console.WriteLine($"Suma kalorii/100g: {recipe.Kcal} kcal.");
+            Console.WriteLine($"Suma kalorii/100g: {recipe.KcalPerHundredGrams} kcal.");
             Console.WriteLine($"Waga całkowita: {recipe.Weight} g.");
             Console.WriteLine($"Kcal całkowite: {recipe.FullKcal} kcal.");
             Console.WriteLine('\n');
