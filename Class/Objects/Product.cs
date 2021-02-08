@@ -4,6 +4,7 @@ namespace Dietownik
 {
     class Product
     {
+        public int Id { get; set; }
         public string Name { get; set; }
         public decimal KcalPerHundredGrams { get; set; }
         public decimal FatPerHundredGrams { get; set; }
