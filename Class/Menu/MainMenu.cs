@@ -34,22 +34,31 @@ namespace Dietownik
                 switch (option)
                 {
                     case 1:
+                        Console.Clear();
                         Console.WriteLine("Choose Low Caloryfic, Medium Caloryfic, High Caloryfic or All Recipes (Low/Medium/High/All):");
                         string kindOfRecipe = Console.ReadLine();
                         recipesOrganizer.PrintAndReturnListOfRecipes(kindOfRecipe);
+                        Console.ReadKey();
                         break;
                     case 2:
+                        Console.Clear();
                         Console.WriteLine("Search in name:");
                         string phrase = Console.ReadLine();
                         recipesOrganizer.Search(phrase);
+                        Console.ReadKey();
                         break;
                     case 3:
+                        Console.Clear();
                         printer.Print(productsOrganizer.GetAll());
+                        Console.ReadKey();
                         break;
                     case 4:
+                        Console.Clear();
 
+                        Console.ReadKey();
                         break;
                     case 5:
+                        Console.Clear();
                         Console.WriteLine($"Insert recipe name: ");
                         string userInputRecipeName = Console.ReadLine();
                         Console.WriteLine($"Insert prefer kcal of complete dish: ");
@@ -59,14 +68,23 @@ namespace Dietownik
                         printer.Print(recipe);
                         Recipe newRecipe = recipeCounter.Count(recipe, userInputKcal);
                         printer.Print(newRecipe);
+                        Console.ReadKey();
                         break;
                     case 6:
+                        Console.Clear();
                         recipesOrganizer.AddRecipe();
+                        Console.ReadKey();
                         break;
                     case 7:
+                        Console.Clear();
                         productsOrganizer.Add();
+                        Console.ReadKey();
                         break;
                     case 0:
+                        Console.WriteLine("Are you sure? (y/n)");
+                        string userInput = Console.ReadLine();
+                        if (userInput != "y" && userInput != "Y")
+                            Start();
                         break;
                     default:
                         break;

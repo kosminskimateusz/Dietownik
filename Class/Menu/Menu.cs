@@ -11,6 +11,7 @@ namespace Dietownik
             int option = 0;
             do
             {
+                Console.Clear();
                 PrintOptions();
                 ChooseOptions(ref option);
             } while (option != 0);

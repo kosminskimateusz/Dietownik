@@ -103,7 +103,7 @@ namespace Dietownik
                 this.KcalPerHundredGrams += (Ingredients[ingredient].KcalPerHundredGrams * Ingredients[ingredient].Weight / 100);
                 this.FatPerHundredGrams += (Ingredients[ingredient].FatPerHundredGrams * Ingredients[ingredient].Weight / 100);
                 this.CarbsPerHundredGrams += (Ingredients[ingredient].CarbsPerHundredGrams * Ingredients[ingredient].Weight / 100);
-                this.ProteinPerHundredGrams += (Ingredients[ingredient].ProteinPerHundredGrams * Ingredients[ingredient].Weight / 100);
+                this.ProteinPerHundredGrams += (Ingredients[ingredient].ProteinsPerHundredGrams * Ingredients[ingredient].Weight / 100);
                 this.FiberPerHundredGrams += (Ingredients[ingredient].FiberPerHundredGrams * Ingredients[ingredient].Weight / 100);
                 this.SaltPerHundredGrams += (Ingredients[ingredient].SaltPerHundredGrams * Ingredients[ingredient].Weight / 100);
                 this.Weight += Ingredients[ingredient].Weight;
