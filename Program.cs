@@ -9,6 +9,8 @@ namespace Dietownik
     {
         static void Main(string[] args)
         {
+            DataBase db = new DataBase();
+            
             // Menu menu = new MainMenu();
             // menu.Start();
             // DatabaseConnection con = new DatabaseConnection();
